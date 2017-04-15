@@ -179,6 +179,7 @@
                              timer-running border-pos
                              flappy-y pillar-list]}]
   (sab/html [:div.board { :onMouseDown (fn [e]
+                                         ;; 鼠标单击修改飞行高度
                                          (swap! flap-state jump)
                                          (.preventDefault e))}
              [:h1.score score]
