@@ -9,7 +9,8 @@
                  [cljsjs/react-dom-server "15.3.1-0"]  ;; for sablono
                  [cljsjs/react-dom "15.3.1-0"] ;; for sablono
                  [cljsjs/react "15.3.1-0"] ;; for sablono
-                 [sablono "0.7.5"]]
+                 [sablono "0.7.5"]
+                 [com.cemerick/piggieback "0.2.2-SNAPSHOT"]]
 
   :plugins [[lein-cljsbuild "1.1.4"
              :exclusions [org.clojure/clojure]]
@@ -34,6 +35,8 @@
                          :output-dir "resources/public/js/out"
                          :source-map-timestamp true}}]}
 
-  :figwheel { :css-dirs ["resources/public/css"]
-              :open-file-command "emacsclient"
+  :figwheel {:css-dirs ["resources/public/css"]
+             :open-file-command "emacsclient"
+             :nrepl-port 7003
+             :nrepl-middleware ["cemerick.piggieback/wrap-cljs-repl"]
              })
