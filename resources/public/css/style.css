@@ -1,26 +1,35 @@
 /*rgb(84,56,71)*/
 
 body {
-   background-color: rgb(32,35,50);
+    background-color: rgb(32,35,50); /*背景颜色, #1BA6B2 是蓝绿色*/
 }
 
-#board-area {
-    position: relative;
-    width: 480px;
-    height: 640px;
-    margin:0px auto;
+#board-area { /*ID#board-area, id="board-area"*/
+    position: relative; /*位置: position, relative相对*/
+/* 通过绝对定位，元素可以放置到页面上的任何位置。下面的标题距离页面左侧 100px，距离页面顶部 150px。
+h2.pos_abs
+{
+position:absolute;
+left:100px;
+top:150px
+}
+<h2 class="pos_abs">这是带有绝对定位的标题</h2>
+*/
+    width: 480px; /*宽度*/
+    height: 640px; /*高度*/
+    margin:0px auto; /*空白的距离,margin-top, margin-bottom, margin-right*/
     background: rgb(112, 197, 206) url(../imgs/background.png) no-repeat left bottom;
 }
 
 .board {
-    position: relative;
-    width:480px;
+    position: relative; /*position绝对定位, absolute这个是绝对定位, position：relative是相对于浏览器容器定位*/
+    width:480px; 
     height: 640px;
-    overflow: hidden;
+    overflow: hidden; /*当文字或其它, 在一个(position矩形定位)布局溢出时的处理, overflow: scroll 自动换行, hidden 是隐藏*/
 }
 
 .scrolling-border {
-  position: absolute;
+  position: absolute; /*position矩形绝对定位*/
   height: 10px;
   width: 480px;
   top: 567px;
@@ -51,7 +60,7 @@ body {
 }
 
 .pillar-lower {
-  bottom: 80px;
+  bottom: 80px; /*底部*/
   right: 150px;
   background-image: url(../imgs/lower-pillar-head.png), url(../imgs/pillar-bkg.png);
   background-position: left top, left top;
@@ -61,14 +70,22 @@ body {
 .score {
   position: absolute;
   width: 300px;
-  text-align: center;
+  text-align: center; /*文本居中,还是左对齐*/
+/*
+h1 {text-align: center}
+h2 {text-align: left}
+h3 {text-align: right}
+*/
   left: 90px;
-  font-size: 58px;
+  font-size: 58px; /*文本大小*/
   top: 13px;
   color: #fff;
   text-shadow: -4px 0 black, 0 4px black, 4px 0 black, 0 -4px black;
-  z-index: 5;
+  /* text-shadow: 5px 5px 5px #FF0000; 文本的阴影效果,我的画家=>元*/
+  z-index: 5; /*图片文字重叠, 是浮在上面还是,后者覆盖前者*/
   font-family: monospace;
+/* p.serif{font-family:"Times New Roman",Georgia,Serif}
+p.sansserif{font-family:Arial,Verdana,Sans-serif} 字体*/
 }
 
 .start-button {
@@ -78,9 +95,9 @@ body {
     z-index: 5;
     position: absolute;
     font-family: monospace;
-    border-bottom: 3px solid rgb(84,56,71);
+    border-bottom: 3px solid rgb(84,56,71); /*设置下边框的样式, 文本的边框边界,或者是布局的边界*/
     border-right: 3px solid rgb(84,56,71);
-    padding: 1px 10px;
+    padding: 1px 10px; /*设置 p 元素的 4 个内边距：  padding:2cm 4cm 3cm 4cm; 上右下左CSS padding 属性 */
     top: 363px;
     left: 128px;
     text-align: center;
