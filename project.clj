@@ -15,6 +15,8 @@
              :exclusions [org.clojure/clojure]]
             [lein-figwheel "0.5.4-7"]]
 
+  :repositories {"aliyun" "http://maven.aliyun.com/nexus/content/groups/public"}
+
   :clean-targets ^{:protect false} ["resources/public/js/out"
                                     "resources/public/js/flappy_bird_demo.js"
                                     :target-path]
