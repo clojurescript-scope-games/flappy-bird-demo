@@ -20,8 +20,15 @@
          :time-delta 366.82800005655736, ;; delta是飞行的三角洲
          :start-time 3899079.99499992, ;;开始时间
          :initial-vel 21, ;; initial最初的vel
-         :timer-running false, ;; timer定时器
-         :flappy-y 198.44712756106685, ;;上下的移动距离
+         :timer-running false, ;; timer定时器,一切的核心是时间,运行时间,争取时间
+         :flappy-y 198.44712756106685, ;;上下的移动距离, 掉到地上是520,
+         ;;flappy-y无限的上升是-1059或者是更小
+         ;;初始的上面柱子的高度是200,当飞行距离flappy-y小于200时And时间轴在柱子里时就会撞到柱子
+         ;; ===>>> FRP: 游戏编程的本质是repl交互式编程,不断的和计算机原有的过滤规则交互,找到可以通过的数据流
+         ;; ====>>> 初始的下面的柱子是900时,飞行高度flappy为325就会碰到下面的柱子
+         ;;==================================>>>>>> 柱子list的说明=====>>>
+         ;; 点开始时: [{:start-time 0, :pos-x 900, :cur-x 900, :gap-top 200}]
+         ;; 点第二下时: ({:start-time 70281.98999993037, :pos-x 900, :cur-x 671, :gap-top 200} {:start-time 70281.98999993037, :pos-x 1224, :cur-x 995, :gap-top 66} {:start-time 70348.68599998299, :pos-x 1537, :cur-x 1318, :gap-top 143})
          :score 1, ;;得到的分数
          :cur-time 3904182.238999987, ;;当前的时间
          :pillar-list ;;pillar柱子的列表, 要躲过所有列表的的过滤器,才能成功
@@ -216,6 +223,7 @@
   (sab/html [:div.board { :onMouseDown (fn [e]
                                          ;; 鼠标单击修改飞行高度
                                          (swap! flap-state jump)
+                                         (prn (:pillar-list @flap-state))
                                          (.preventDefault e))}
              [:h1.score score]
              (if-not timer-running
