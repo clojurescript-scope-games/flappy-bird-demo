@@ -1,16 +1,49 @@
 (ns flappy-bird-demo.core
   (:require
-   [cljsjs.react]
-   [cljsjs.react.dom]
-   [sablono.core :as sab :include-macros true]
-   [cljs.core.async :refer [<! chan sliding-buffer put! close! timeout]])
+   [cljsjs.react] ;; 用了原始的react,而没有用om或者是reagent
+   [cljsjs.react.dom] ;;虚拟dom
+   [sablono.core :as sab :include-macros true] ;;hiccup类似的html输出for react
+   [cljs.core.async :refer [<! chan sliding-buffer put! close! timeout]]) ;;异步处理
   (:require-macros
-   [cljs.core.async.macros :refer [go-loop go]]))
+   [cljs.core.async.macros :refer [go-loop go]])) ;;异步处理
+
+;; TODOS: ----->>>>
+;; 1. 飞行高度的控制: 点击的位置的次数
+;; 2. 碰到柱子结束游戏
+;; 3. 越过柱子加分
+;; 4. 时间作为函数: 飞行的位置
+;; 5. readme为量化的游戏规则
+(defn readme
+  []
+  {:val {:jump-count 3, ;; 跳的次数
+         :flappy-start-time 3904182.238999987, ;; 飞行的开始时间
+         :time-delta 366.82800005655736, ;; delta是飞行的三角洲
+         :start-time 3899079.99499992, ;;开始时间
+         :initial-vel 21, ;; initial最初的vel
+         :timer-running false, ;; timer定时器
+         :flappy-y 198.44712756106685, ;;上下的移动距离
+         :score 1, ;;得到的分数
+         :cur-time 3904182.238999987, ;;当前的时间
+         :pillar-list ;;pillar柱子的列表, 要躲过所有列表的的过滤器,才能成功
+         (list
+          {:start-time 3899079.99499992, ;; 柱子出现的时间
+           :pos-x 900, ;; 下面柱子的高度
+           :cur-x 134, ;; 时间轴x的位置
+           :gap-top 200} ;;上面柱子的高度
+          {:start-time 3899079.99499992,
+           :pos-x 1224,
+           :cur-x 458,
+           :gap-top 95}
+          {:start-time 3899130.0169999013,
+           :pos-x 1540,
+           :cur-x 782,
+           :gap-top 216})}}
+  )
 
 (enable-console-print!)
-
-(defn floor [x] (.floor js/Math x))
-
+;; (floor "2.1") ;;=> 2 去除小数点
+(defn floor [x] (.floor js/Math x)) 
+;; 转换=> 位置和时间
 (defn translate [start-pos vel time]
   (floor (+ start-pos (* time vel))))
 
@@ -48,6 +81,8 @@
 
 (defonce flap-state (atom starting-state))
 
+;;pillar是当前的柱子定位: 当前时间cur-time, pos-x, start-time开始时间 作为参赛
+;; 当前时间减去开始的时间 
 (defn curr-pillar-pos [cur-time {:keys [pos-x start-time] }]
   (translate pos-x horiz-vel (- cur-time start-time)))
 
