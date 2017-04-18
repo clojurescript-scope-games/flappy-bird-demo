@@ -25,6 +25,11 @@ Checkout the documentation on [lein-figwheel](https://github.com/bhauman/lein-fi
 (define-key global-map (kbd "M-\"") 'cljs-eval-sexp)
 
 ```
+## 加了提示之后
+![](./notice.jpeg)
+## TODOS:
+* 1. 设置难易程度的关卡
+* 2. 越南的提示越少,变化越大,闯关时间越长
 ## License
 
 Copyright © 2014 Bruce Hauman
