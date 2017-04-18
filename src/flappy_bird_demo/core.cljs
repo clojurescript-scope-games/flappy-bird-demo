@@ -217,12 +217,28 @@
      (reset! flap-state (reset-state @flap-state time))
      (time-loop time))))
 
+(defn is-vibration-supported?
+  "Return true if the navigator contains vibrate property."
+  []
+  (exists? js/navigator.vibrate))
+
+;; (vibrate 1000 2000 3000)
+;; (vibrate 1000)
+(defn vibrate
+  "If vibration supported by browser device will vibrate 
+   by odd elements of duration vector with pauses by even 
+   elements of vector."
+  [duration]
+  (if (is-vibration-supported?)
+    (js/navigator.vibrate (clj->js duration))))
+
 (defn main-template [{:keys [score cur-time jump-count
                              timer-running border-pos
                              flappy-y pillar-list]}]
   (sab/html [:div.board { :onMouseDown (fn [e]
                                          ;; 鼠标单击修改飞行高度
                                          (swap! flap-state jump)
+                                         (vibrate 200)
                                          (prn (:pillar-list @flap-state))
                                          (.preventDefault e))}
              [:h1.score score]
