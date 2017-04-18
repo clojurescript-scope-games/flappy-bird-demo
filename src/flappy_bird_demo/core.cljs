@@ -238,10 +238,34 @@
   (sab/html [:div.board { :onMouseDown (fn [e]
                                          ;; 鼠标单击修改飞行高度
                                          (swap! flap-state jump)
+                                         ;;用振动来表示跳动
                                          (vibrate 200)
-                                         (prn (:pillar-list @flap-state))
+                                         (prn (str "AAAA" (:pillar-list @flap-state)))
                                          (.preventDefault e))}
-             [:h1.score score]
+             [:h1.score score] 
+             [:h5.notice ;;gap-top是上面柱子的高度
+              ;; (clojure.string/join ", " (map #(:gap-top %) (:pillar-list @flap-state)))
+              (let [aa "↑"
+                    bb "↓" 
+                    datas (map #(:gap-top %) (:pillar-list @flap-state))]
+                (if (= (count datas) 3)
+                  (let [data datas
+                        fnv #(cond (> %1 %2)
+                                   (if (> (js/Math.abs (- %1 %2)) 99)
+                                     (str aa aa) aa)
+                                   :else
+                                   (if (> (js/Math.abs (- %1 %2)) 99)
+                                     (str bb bb) bb)
+                                   )
+                        n0 (nth data 0)
+                        n1 (nth data 1)
+                        n2 (nth data 2)]
+                    (clojure.string/join " " (list n0 (fnv n0 n1) n1 (fnv n1 n2) n2)) )
+                  (clojure.string/join ", " datas)
+                  )
+                )
+              ;;
+              ]
              (if-not timer-running
                [:a.start-button {:onClick #(start-game)}
                 (if (< 1 jump-count) "RESTART" "START")]

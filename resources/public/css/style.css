@@ -88,6 +88,19 @@ h3 {text-align: right}
 p.sansserif{font-family:Arial,Verdana,Sans-serif} 字体*/
 }
 
+.notice {
+  position: absolute;
+  width: 300px;
+  text-align: center;
+  left: 90px;
+  font-size: 30px;
+  top: 13px;
+  color: #ff0404;
+  z-index: 5; 
+  font-family: monospace;
+  margin-top: 100px;
+}
+
 .start-button {
     color: rgb(244,176,36);
     background-color: #fff;
