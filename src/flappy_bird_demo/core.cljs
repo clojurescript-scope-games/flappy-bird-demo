@@ -106,11 +106,12 @@
 (defn bottom-collision? [{:keys [flappy-y]}]
   (>= flappy-y (- bottom-y flappy-height)))
 
+;; 碰撞死了
 (defn collision? [{:keys [pillar-list] :as st}]
   (if (some #(or (and (in-pillar? %)
                       (not (in-pillar-gap? st %)))
                  (bottom-collision? st)) pillar-list)
-    (assoc st :timer-running false)
+    (assoc st :timer-running false) ;;时间run就停止了
     st))
 
 (defn new-pillar [cur-time pos-x]
@@ -242,7 +243,9 @@
                                          (vibrate 200)
                                          (prn (str "AAAA" (:pillar-list @flap-state)))
                                          (.preventDefault e))}
-             [:h1.score score] 
+             (if (:timer-running @flap-state)
+               [:h1.score]
+               [:h1.score score]) 
              [:h5.notice ;;gap-top是上面柱子的高度
               ;; (clojure.string/join ", " (map #(:gap-top %) (:pillar-list @flap-state)))
               (let [aa "↑"
