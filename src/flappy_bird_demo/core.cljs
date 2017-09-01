@@ -197,12 +197,16 @@
 
 (defn px [n] (str n "px"))
 
+;; 柱子的视图: (first (:pillar-list @flap-state)) ;; => {:start-time 17636.856000004627, :pos-x 900, :cur-x 232, :gap-top 200}
 (defn pillar [{:keys [cur-x pos-x upper-height lower-height]}]
   [:div.pillars
+   ;; cur-x 是上下柱子的左右位置,横轴X轴的位置
+   ;; 上面的柱子: left: 232px; height: 200px; upper-height 是上面柱子的高度
    [:div.pillar.pillar-upper {:style {:left (px cur-x)
-                                       :height upper-height}}]
+                                      :height upper-height}}]
+   ;; 下面的柱子: left: 232px; height: 203px; lower-height 是下面柱子的高度
    [:div.pillar.pillar-lower {:style {:left (px cur-x)
-                                       :height lower-height}}]])
+                                      :height lower-height}}]])
 
 (defn time-loop [time]
   (let [new-state (swap! flap-state (partial time-update time))]
