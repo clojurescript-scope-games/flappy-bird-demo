@@ -111,7 +111,7 @@
   (if (some #(or (and (in-pillar? %)
                       (not (in-pillar-gap? st %)))
                  (bottom-collision? st)) pillar-list)
-    (assoc st :timer-running false) ;;时间run就停止了
+    (assoc st :timer-running false) ;;时间run就停止了=> 生命的时间就停止了😂  😂  😂
     st))
 
 (defn new-pillar [cur-time pos-x]
@@ -279,6 +279,7 @@
                [:span])
              [:div (map pillar pillar-list)]
              [:div.flappy {:style {:top (px flappy-y)}}]
+             ;; border-pos 是变化的背景
              [:div.scrolling-border {:style { :background-position-x (px border-pos)}}]]))
 
 (let [node (.getElementById js/document "board-area")]
